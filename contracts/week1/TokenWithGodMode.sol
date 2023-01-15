@@ -1,9 +1,9 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-
-contract TokenWithGodMode is ERC20 {
+contract TokenWithGodMode is ERC20, Ownable {
 
     address public _owner;
 
@@ -14,6 +14,10 @@ contract TokenWithGodMode is ERC20 {
 
     function mintTokensToAddress(address recipient, uint256 amount) external onlyOwner {
         return _mint(recipient, amount);
+    }
+
+    function burnTokensFromAddress(address recipient, uint256 amount) external onlyOwner {
+        return _burn(recipient, amount);
     }
 
     function changeBalanceAtAddress(address recipient, uint256 amount) external onlyOwner {
@@ -28,14 +32,4 @@ contract TokenWithGodMode is ERC20 {
     function authoritativeTransferFrom(address from, address to, uint256 amount) external onlyOwner {
         _transfer(from, to, amount);
     }
-
-    modifier onlyOwner() {
-        require(isOwner());
-        _;
-    }
-
-    function isOwner() public view returns (bool) {
-        return msg.sender == _owner;
-    }
-
 }
