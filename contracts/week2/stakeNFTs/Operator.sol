@@ -20,19 +20,29 @@ contract MyOperator is ERC721Holder, Ownable {
         ratePerSec = RATE_PER_DAY.div(1 days);
     }
 
-    function stakeNFT(uint256 nftTokenId) public {
+    function stakeNFT(uint256 nftTokenId) external {
         nftAddress.transferFrom(msg.sender, address(this), nftTokenId);
         nftOwnerOf[nftTokenId] = msg.sender;
         nftStakedAt[nftTokenId] = block.timestamp;
     }
 
-    function unStakeNFT(uint256 nftTokenId) public {
+    function withdrawERC20AgainstNFT(uint256 nftTokenId) external returns (uint256){
+        require(nftOwnerOf[nftTokenId] == msg.sender, "should be owner");
+        uint256 tokens = calculateTokens(nftTokenId);
+        walletAddress.mint(msg.sender, tokens);
+        //reset stake start time
+        nftStakedAt[nftTokenId] = block.timestamp;
+        return tokens;
+    }
+
+    function unStakeNFT(uint256 nftTokenId) external returns (uint256){
         require(nftOwnerOf[nftTokenId] == msg.sender, "should be owner");
         nftAddress.transferFrom(address(this), msg.sender, nftTokenId);
         uint256 tokens = calculateTokens(nftTokenId);
         walletAddress.mint(msg.sender, tokens);
         delete nftOwnerOf[nftTokenId];
         delete nftStakedAt[nftTokenId];
+        return tokens;
     }
 
     function calculateTokens(uint256 nftTokenId) public view returns (uint256) {

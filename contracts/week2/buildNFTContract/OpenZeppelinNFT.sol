@@ -40,7 +40,10 @@ contract OpenZeppelinNFT is ERC721, Ownable {
     }
 
     function _baseURI() internal view override returns (string memory) {
-        return "ipfs://bafybeieypcug4ds4h3wwjs5llv5cqkb52lg54rugmgus3xtlwcjd2snhdy/";
+        return "ipfs://bafybeic63a666dyv22k5zux5qhtr3vdwgathl5eks2tvi3kh74golp3i6a/";
     }
 
 }
+
+// opensea address: https://testnets.opensea.io/assets/goerli/0x897b328a32e2dc720d6f359f1f847a4d05e1a4b5/0
+// etherscan : https://goerli.etherscan.io/address/0x897b328a32e2dc720d6f359f1f847a4d05e1a4b5

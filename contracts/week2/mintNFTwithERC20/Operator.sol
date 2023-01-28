@@ -15,7 +15,7 @@ contract Operator is Ownable {
         nftAddress = MyNFT(_nftAddress);
     }
 
-    function mint() public {
+    function mint() external {
         walletAddress.transferFrom(msg.sender, address(nftAddress), rate);
         nftAddress.mint(msg.sender);
     }
