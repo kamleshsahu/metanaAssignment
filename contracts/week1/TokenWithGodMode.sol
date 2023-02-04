@@ -5,11 +5,8 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TokenWithGodMode is ERC20, Ownable {
 
-    address public _owner;
-
     constructor(uint56 _supply) ERC20("TokenWithGodMode", "TWGM"){
         _mint(msg.sender, _supply);
-        _owner = msg.sender;
     }
 
     function mintTokensToAddress(address recipient, uint256 amount) external onlyOwner {

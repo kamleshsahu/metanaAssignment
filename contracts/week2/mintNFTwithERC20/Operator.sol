@@ -6,9 +6,9 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
 contract Operator is Ownable {
-    IERC20 public walletAddress;
-    MyNFT public nftAddress;
-    uint256 public rate = 10 * 10 ** 18;
+    IERC20 public immutable walletAddress;
+    MyNFT public immutable nftAddress;
+    uint256 public constant RATE = 10 * 10 ** 18;
 
     constructor(address _walletAddress, address _nftAddress) {
         walletAddress = IERC20(_walletAddress);
@@ -16,7 +16,7 @@ contract Operator is Ownable {
     }
 
     function mint() external {
-        walletAddress.transferFrom(msg.sender, address(nftAddress), rate);
+        walletAddress.transferFrom(msg.sender, address(nftAddress), RATE);
         nftAddress.mint(msg.sender);
     }
 

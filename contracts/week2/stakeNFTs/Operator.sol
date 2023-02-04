@@ -6,10 +6,10 @@ import "@openzeppelin/contracts/token/ERC721/utils/ERC721Holder.sol";
 
 contract MyOperator is ERC721Holder, Ownable {
     using SafeMath for uint256;
-    MyWallet public walletAddress;
-    MyNFT public nftAddress;
+    MyWallet public immutable walletAddress;
+    MyNFT public immutable nftAddress;
     uint256 constant RATE_PER_DAY = 10 * 10 ** 18;
-    uint256 public ratePerSec;
+    uint256 public immutable ratePerSec;
 
     mapping(uint256 => address) public nftOwnerOf;
     mapping(uint256 => uint256) public nftStakedAt;

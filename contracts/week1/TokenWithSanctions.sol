@@ -6,12 +6,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract TokenWithSanctions is ERC20, Ownable {
 
-    address _owner;
     mapping(address => bool) private blackList;
 
     constructor(uint56 _supply) ERC20("TokenWithSanctions", "TWS"){
         _mint(msg.sender, _supply);
-        _owner = msg.sender;
     }
 
     function blockAddress(address userAddress) public onlyOwner {

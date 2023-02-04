@@ -8,14 +8,14 @@ pragma solidity ^0.8.9;
 // This is the main building block for smart contracts.
 contract Token {
     // Some string type variables to identify the token.
-    string public name = "My Hardhat Token";
-    string public symbol = "MHT";
+    string public constant NAME = "My Hardhat Token";
+    string public constant SYMBOL = "MHT";
 
     // The fixed amount of tokens, stored in an unsigned integer type variable.
-    uint256 public totalSupply = 1000000;
+    uint256 public constant TOTALSUPPLY = 10 ** 6;
 
     // An address type variable is used to store ethereum accounts.
-    address public owner;
+    address public immutable owner;
 
     // A mapping is a key/value map. Here we store each account's balance.
     mapping(address => uint256) balances;
@@ -30,7 +30,7 @@ contract Token {
     constructor() {
         // The totalSupply is assigned to the transaction sender, which is the
         // account that is deploying the contract.
-        balances[msg.sender] = totalSupply;
+        balances[msg.sender] = TOTALSUPPLY;
         owner = msg.sender;
     }
 

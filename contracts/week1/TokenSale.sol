@@ -7,12 +7,10 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 contract TokenSale is ERC20, Ownable {
     using SafeMath for uint256;
 
-    uint256 maxSupply = 1e5;
-    address payable public _owner;
-    uint256 costOfOneToken;
+    uint256 constant MAX_SUPPLY = 1e5;
+    uint256 immutable costOfOneToken;
     constructor(uint56 _supply) ERC20("TokenSale", "TS"){
         _mint(msg.sender, _supply);
-        _owner = payable(msg.sender);
         uint256 weiIn1Ether = 1 ether;
         uint256 tokensFor1Ether = 1000;
         costOfOneToken = weiIn1Ether.div(tokensFor1Ether);
@@ -21,12 +19,12 @@ contract TokenSale is ERC20, Ownable {
     function mintTokens() external payable {
         require(msg.value >= costOfOneToken, "Required atleast 0.001 ether to mint");
         uint256 tokens = msg.value.div(costOfOneToken);
-        require(totalSupply() + tokens <= maxSupply, "Sale closed");
+        require(totalSupply() + tokens <= MAX_SUPPLY, "Sale closed");
         return _mint(msg.sender, tokens);
     }
 
     function transferEthers() public onlyOwner payable {
-        _owner.call{value : address(this).balance}("");
+        owner().call{value : address(this).balance}("");
     }
 }
 

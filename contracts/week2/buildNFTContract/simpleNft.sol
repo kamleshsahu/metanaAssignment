@@ -4,7 +4,7 @@ contract SimpleNFT {
 
     mapping(uint256 => address) private _owners;
 
-    string baseURL = "https://example.com/images/";
+    string constant BASE_URL = "https://example.com/images/";
 
     function mint(uint256 _tokenId) external {
         require(_owners[_tokenId] != address(0), "already minted");
@@ -27,7 +27,7 @@ contract SimpleNFT {
     function tokenURI(uint256 _tokenId) external view returns (string memory){
         require(_owners[_tokenId] != address(0), "does not exist");
 
-        return string(abi.encodePacked(baseURL, _tokenId));
+        return string(abi.encodePacked(BASE_URL, _tokenId));
     }
 
 
