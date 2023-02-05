@@ -4,14 +4,13 @@ pragma solidity ^0.8.9;
 import "./MultiToken.sol";
 
 contract Forge is Ownable {
-
     MultiToken public nftContractAddress;
     mapping(uint256 => uint256[]) tokenToBurns;
     mapping(uint256 => uint256[]) burnAmounts;
     mapping(address => uint256) lastMintedAt;
     uint256 public constant COOLDOWN_TIME = 1 minutes;
 
-    constructor(){
+    constructor() {
         tokenToBurns[3] = [0, 1];
         burnAmounts[3] = [1, 1];
         tokenToBurns[4] = [1, 2];
@@ -22,7 +21,9 @@ contract Forge is Ownable {
         burnAmounts[6] = [1, 1, 1];
     }
 
-    function setMultiTokenAddress(address _multiTokenAddress) external onlyOwner {
+    function setMultiTokenAddress(
+        address _multiTokenAddress
+    ) external onlyOwner {
         nftContractAddress = MultiToken(_multiTokenAddress);
     }
 
@@ -34,13 +35,16 @@ contract Forge is Ownable {
             lastMintedAt[msg.sender] = block.timestamp;
         }
 
-        nftContractAddress.burnTokens(msg.sender, tokenToBurns[tokenId], burnAmounts[tokenId]);
+        nftContractAddress.burnTokens(
+            msg.sender,
+            tokenToBurns[tokenId],
+            burnAmounts[tokenId]
+        );
         nftContractAddress.mintToken(msg.sender, tokenId);
     }
 
     function isAfterCooldown() public view returns (bool) {
-        if (lastMintedAt[msg.sender] == 0)
-            return true;
+        if (lastMintedAt[msg.sender] == 0) return true;
 
         uint256 diff = block.timestamp - lastMintedAt[msg.sender];
         return diff >= COOLDOWN_TIME;
